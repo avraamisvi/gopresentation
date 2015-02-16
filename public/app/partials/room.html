@@ -1,0 +1,51 @@
+
+<script type="text/javascript">
+
+  if(navigator.webkitGetUserMedia)
+    navigator.getUserMedia = navigator.webkitGetUserMedia
+  else if(navigator.mozGetUserMedia)
+    navigator.getUserMedia = navigator.mozGetUserMedia
+  else if(navigator.msGetUserMedia)
+    navigator.getUserMedia = navigator.msGetUserMedia
+
+  function capaudio() {
+    navigator.getUserMedia({audio: true, video: true}, function(stream) {
+      
+      var connection = new WebSocket('ws://html5rocks.websocket.org/echo');
+
+      // When the connection is open, send some data to the server
+      connection.onopen = function () {
+        connection.send(stream); // Send the message 'Ping' to the server
+      };
+
+      // Log errors
+      connection.onerror = function (error) {
+        console.log('WebSocket Error ' + error);
+      };
+
+      // Log messages from the server
+      connection.onmessage = function (e) {
+        
+      };
+
+    }, function(e){console.log(e)});
+
+  }
+
+</script>>
+
+<div class="row">
+  
+  <div class="col-md-3">
+    <ul class="list-group">
+      <li class="list-group-item" ng-repeat="attendee in attendees">
+        {{attendee.name}}
+        <span class="glyphicon glyphicon-volume-down"></span>          
+      </li>
+    </ul>
+  </div>
+  
+  <div class="col-md-8">
+    <button onclick="capaudio()"></button>
+  </div>
+</div>
